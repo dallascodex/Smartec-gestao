@@ -1,0 +1,43 @@
+{
+  "packageId": "br.com.smartec.gestao",
+  "host": "sistema.gessosolution.com.br",
+  "name": "Smartec Gestão",
+  "launcherName": "Smartec",
+  "display": "standalone",
+  "themeColor": "#123a63",
+  "themeColorDark": "#123a63",
+  "navigationColor": "#123a63",
+  "navigationColorDark": "#123a63",
+  "navigationDividerColor": "#123a63",
+  "navigationDividerColorDark": "#123a63",
+  "backgroundColor": "#f4f7fb",
+  "enableNotifications": false,
+  "startUrl": "https://sistema.gessosolution.com.br/",
+  "iconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
+  "maskableIconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
+  "monochromeIconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\delis\\Documents\\Codex\\smartec-android-private\\smartec-release.keystore",
+    "alias": "smartec"
+  },
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://sistema.gessosolution.com.br/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://sistema.gessosolution.com.br/",
+  "minSdkVersion": 23,
+  "orientation": "any",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}

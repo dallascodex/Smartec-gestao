@@ -3,6 +3,25 @@ api/config.php
 *.pem
 *.key
 *.pfx
+*.jks
+*.keystore
+
+# Ferramentas locais de compilação Android (nunca enviar ao GitHub)
+.tools/
+android-twa/*.apk
+android-twa/*.aab
+android-twa/*.jks
+android-twa/*.keystore
+android-twa/.gradle/
+android-twa/app/
+android-twa/gradle/
+android-twa/gradlew
+android-twa/gradlew.bat
+android-twa/build.gradle
+android-twa/settings.gradle
+android-twa/local.properties
+android-twa/manifest-checksum.txt
+android-twa/build-manifest.local.json
 
 # Arquivos temporários de publicação
 *.zip

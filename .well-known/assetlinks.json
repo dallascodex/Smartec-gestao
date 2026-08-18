@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "br.com.smartec.gestao",
+      "sha256_cert_fingerprints": [
+        "0A:47:6F:F7:53:7B:7A:75:D7:91:8D:1A:11:3A:05:22:94:25:03:B0:29:1E:A0:14:81:76:1F:48:CE:EB:AB:1F"
+      ]
+    }
+  }
+]
