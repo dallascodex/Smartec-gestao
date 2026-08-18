@@ -36,7 +36,7 @@ function fileToDataUrl(file) { return new Promise((resolve,reject)=>{const reade
 let installPrompt;
 const installButton = document.querySelector('#install-button');
 const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
-if (isAppleMobile && !window.matchMedia('(display-mode: standalone)').matches) installButton.hidden = false;
+if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true) installButton.hidden = true;
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
   installPrompt = event;
@@ -44,13 +44,15 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 installButton.addEventListener('click', async () => {
   if (!installPrompt) {
-    alert('No iPhone/iPad, abra este sistema no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.');
+    alert(isAppleMobile
+      ? 'No iPhone/iPad, abra este sistema no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.'
+      : 'No Android, abra este sistema no Chrome, toque no menu ⋮ e escolha “Instalar app” ou “Adicionar à tela inicial”.');
     return;
   }
   installPrompt.prompt();
-  await installPrompt.userChoice;
+  const choice = await installPrompt.userChoice;
   installPrompt = null;
-  installButton.hidden = true;
+  installButton.hidden = choice.outcome === 'accepted';
 });
 window.addEventListener('appinstalled', () => {
   installPrompt = null;

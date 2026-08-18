@@ -1,5 +1,5 @@
-const CACHE = 'smartec-gestao-v13';
-const APP_FILES = ['./', './index.html', './styles.css', './app.js?v=13', './data.js?v=12', './manifest.webmanifest', './assets/icon.svg'];
+const CACHE = 'smartec-gestao-v14';
+const APP_FILES = ['./', './index.html', './styles.css', './app.js?v=14', './data.js?v=12', './manifest.webmanifest', './assets/icon.svg', './assets/icon-192.png', './assets/icon-512.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(APP_FILES)));
