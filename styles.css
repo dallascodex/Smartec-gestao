@@ -33,6 +33,10 @@ button { font:inherit; cursor:pointer; }.primary { border:0; border-radius:8px; 
 .module-list li { padding: 14px; border: 1px solid #e3eaf2; border-radius: 8px; }
 .module-list strong { display: block; margin-bottom: 4px; }
 .install-button { border: 0; border-radius: 7px; padding: 8px 12px; background: #fff; color: #123a63; font-weight: 700; }
+.legal-footer { margin-top: 36px; padding: 16px 0 4px; border-top: 1px solid #e3eaf2; color: #5b6a7c; font-size: .9rem; }
+.legal-footer a { color: #123a63; font-weight: 700; }
+.privacy-page { max-width: 860px; margin: 0 auto; padding: 42px 24px 64px; }
+.privacy-page h1 { margin-bottom: 6px; }.privacy-page h2 { margin-top: 30px; font-size: 1.2rem; }.privacy-page p, .privacy-page li { color: #334155; line-height: 1.65; }.privacy-page li { margin: 7px 0; }.privacy-page .back-link { color: #123a63; font-weight: 700; }
 .menu-button { display: none; }
 @media (max-width: 720px) {
   .app-shell { display:block; }

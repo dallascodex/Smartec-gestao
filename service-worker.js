@@ -1,5 +1,5 @@
-const CACHE = 'smartec-gestao-v15';
-const APP_FILES = ['./', './index.html', './styles.css', './app.js?v=14', './data.js?v=12', './manifest.webmanifest', './assets/icon.svg', './assets/icon-192.png', './assets/icon-512.png'];
+const CACHE = 'smartec-gestao-v16';
+const APP_FILES = ['./', './index.html', './privacidade.html', './styles.css', './app.js?v=16', './data.js?v=12', './manifest.webmanifest', './assets/icon.svg', './assets/icon-192.png', './assets/icon-512.png'];
 
 async function cacheFile(cache, file) {
   const controller = new AbortController();
