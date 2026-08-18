@@ -12,7 +12,7 @@
   "navigationDividerColorDark": "#123a63",
   "backgroundColor": "#f4f7fb",
   "enableNotifications": false,
-  "startUrl": "https://sistema.gessosolution.com.br/",
+  "startUrl": "/",
   "iconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
   "maskableIconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
   "monochromeIconUrl": "https://sistema.gessosolution.com.br/assets/icon-512.png",
