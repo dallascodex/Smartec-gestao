@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Smartec Gestão">
+  <rect width="512" height="512" rx="112" fill="#123a63"/>
+  <path d="M132 184h248v46H132zm0 82h248v46H132zm0 82h160v46H132z" fill="#fff"/>
+  <circle cx="348" cy="371" r="52" fill="#e0a125"/>
+  <path d="m324 371 16 16 32-37" fill="none" stroke="#123a63" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+</svg>

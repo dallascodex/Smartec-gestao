@@ -1,0 +1,13 @@
+# Credenciais e configurações privadas do servidor
+api/config.php
+*.pem
+*.key
+*.pfx
+
+# Arquivos temporários de publicação
+*.zip
+*.log
+
+# Uploads reais não devem ir ao repositório
+api/uploads/*
+!api/uploads/.htaccess

@@ -1,0 +1,10 @@
+{
+  "name": "Smartec Gestão",
+  "short_name": "Smartec",
+  "description": "Gestão interna de serviços, financeiro e ferramentas.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#123a63",
+  "icons": [{ "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
