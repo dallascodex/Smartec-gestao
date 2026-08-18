@@ -1,4 +1,4 @@
-import { store } from './data.js?v=11';
+import { store } from './data.js?v=12';
 
 const statuses = ['Aberta', 'Em andamento', 'Aguardando aprovação', 'Concluída'];
 let pendingOrderPhoto = '';

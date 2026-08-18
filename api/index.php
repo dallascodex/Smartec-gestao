@@ -4,18 +4,23 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
+header('Referrer-Policy: no-referrer');
+header('X-Frame-Options: DENY');
 session_name('smartec_session');
 session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax', 'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
 session_start();
 
 function reply(mixed $data, int $status = 200): never { http_response_code($status); echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); exit; }
 function fail(string $message, int $status = 400): never { reply(['error' => $message], $status); }
+set_exception_handler(function (Throwable $error): void { error_log('Smartec API: ' . $error->getMessage()); reply(['error' => 'Erro interno. Tente novamente.'], 500); });
 function input(): array { $raw = file_get_contents('php://input'); if ($raw === '') return $_POST; $data = json_decode($raw, true); return is_array($data) ? $data : fail('JSON inválido.'); }
 function field(array $data, string $name, int $max = 0): string { $value = trim((string)($data[$name] ?? '')); if ($max && mb_strlen($value) > $max) fail("Campo $name excede o limite."); return $value; }
 function integer(array $data, string $name): int { $value = filter_var($data[$name] ?? null, FILTER_VALIDATE_INT); if ($value === false || $value === null || $value < 1) fail("Campo $name inválido."); return (int)$value; }
 function config(): array { $files = [dirname(__DIR__, 5) . '/smartec-private/config.php', __DIR__ . '/config.php']; foreach ($files as $file) { if (!is_file($file)) continue; $value = require $file; return is_array($value) ? $value : fail('Configuração inválida.', 500); } fail('API ainda não configurada.', 503); }
 function db(): PDO { static $pdo; if ($pdo) return $pdo; $c = config()['db'] ?? []; try { $pdo = new PDO("mysql:host={$c['host']};dbname={$c['database']};charset=" . ($c['charset'] ?? 'utf8mb4'), $c['username'], $c['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_EMULATE_PREPARES => false]); return $pdo; } catch (PDOException) { fail('Não foi possível conectar ao banco.', 503); } }
 function user(): array { if (empty($_SESSION['user'])) fail('Não autenticado.', 401); return $_SESSION['user']; }
+function csrfToken(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32)); return $_SESSION['csrf']; }
+function verifyCsrf(): void { $provided = (string)($_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''); if (!$provided || !hash_equals(csrfToken(), $provided)) fail('Sessão inválida. Atualize a página e tente novamente.', 403); }
 function allow(array $roles, array $current): void { if (!in_array($current['role'], $roles, true)) fail('Você não tem permissão para esta ação.', 403); }
 function execute(string $sql, array $values): int { $st = db()->prepare($sql); $st->execute($values); return (int)db()->lastInsertId(); }
 function one(string $table, int $id): array { $st = db()->prepare("SELECT * FROM `$table` WHERE id = ?"); $st->execute([$id]); return $st->fetch() ?: fail('Registro não encontrado.', 404); }
@@ -28,10 +33,12 @@ if ($resource === 'auth/login' && $method === 'POST') {
     $data = input(); $email = field($data, 'email', 120); $password = (string)($data['password'] ?? '');
     $st = db()->prepare('SELECT id, name, email, password_hash, role FROM users WHERE email = ? LIMIT 1'); $st->execute([$email]); $found = $st->fetch();
     if (!$found || !password_verify($password, $found['password_hash'])) fail('E-mail ou senha inválidos.', 401);
-    $_SESSION['user'] = ['id' => (int)$found['id'], 'name' => $found['name'], 'email' => $found['email'], 'role' => $found['role']]; reply(['user' => $_SESSION['user']]);
+    session_regenerate_id(true);
+    $_SESSION['user'] = ['id' => (int)$found['id'], 'name' => $found['name'], 'email' => $found['email'], 'role' => $found['role']];
+    reply(['user' => $_SESSION['user'], 'csrf' => csrfToken()]);
 }
-if ($resource === 'auth/logout' && $method === 'POST') { $_SESSION = []; session_destroy(); reply(['ok' => true]); }
-if ($resource === 'auth/me' && $method === 'GET') reply(['user' => user()]);
+if ($resource === 'auth/logout' && $method === 'POST') { verifyCsrf(); $_SESSION = []; session_destroy(); reply(['ok' => true]); }
+if ($resource === 'auth/me' && $method === 'GET') reply(['user' => user(), 'csrf' => csrfToken()]);
 if ($resource === 'auth/setup' && $method === 'POST') {
     $settings = config(); $count = (int)db()->query('SELECT COUNT(*) FROM users')->fetchColumn(); if ($count) fail('Administrador já configurado.', 409);
     if (!hash_equals((string)($settings['setup_key'] ?? ''), (string)($_SERVER['HTTP_X_SETUP_KEY'] ?? ''))) fail('Chave de configuração inválida.', 403);
@@ -40,6 +47,7 @@ if ($resource === 'auth/setup' && $method === 'POST') {
 }
 
 $currentUser = user();
+if ($method !== 'GET') verifyCsrf();
 if ($resource === 'users') {
     allow(['admin'], $currentUser);
     $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
